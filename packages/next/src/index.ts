@@ -67,7 +67,6 @@ export class Anjum {
           app_name: this.name,
           db: this.database,
         });
-        break;
       default:
         return {
           success: false,
@@ -90,14 +89,11 @@ export class Anjum {
           code: code,
           db: this.database,
         });
-        break;
-
       default:
         return {
           success: false,
           message: "Invalid database type",
         };
-        break;
     }
   };
 
