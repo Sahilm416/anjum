@@ -4,6 +4,7 @@ import {
   registerUser,
   sendVerificationCode,
   verifyEmailCode,
+  deleteUserAccount,
 } from "./core/postgresNeon";
 import { DatabaseTypes } from "./customTypes/types"; // Adjust the import if necessary
 
@@ -97,6 +98,18 @@ export class Anjum {
           message: "Invalid database type",
         };
         break;
+    }
+  };
+
+  deleteAccount = async ({ email }: { email: string }) => {
+    switch (this.database.type) {
+      case "postgresNeon":
+        return await deleteUserAccount({ email: email, db: this.database });
+      default:
+        return {
+          success: false,
+          message: "Invalid database type",
+        };
     }
   };
 }

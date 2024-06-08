@@ -1,4 +1,4 @@
-import { NeonConnectionType } from "../customTypes/types";
+import { DatabaseTypes, NeonConnectionType } from "../customTypes/types";
 import { sendCodeWithNodemailer, setJWTcookie } from "./common";
 
 /* regsiter new user */
@@ -262,6 +262,32 @@ export const verifyEmailCode = async ({
         message: "Invalid verification code",
       };
     }
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something went wrong.",
+    };
+  }
+};
+
+/*
+Delete user account from anjum table
+*/
+
+export const deleteUserAccount = async ({
+  email,
+  db,
+}: {
+  email: string;
+  db: DatabaseTypes;
+}) => {
+  try {
+    await db.connection(`DELETE FROM anjum WHERE email = $1`, [email]);
+    return {
+      success: true,
+      message: "successfully deleted user account",
+    };
   } catch (error) {
     console.log(error);
     return {
