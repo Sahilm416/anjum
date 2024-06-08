@@ -296,3 +296,45 @@ export const deleteUserAccount = async ({
     };
   }
 };
+
+/*
+Method to reset the password
+*/
+
+export const resetUserPassword = async ({
+  email,
+  password,
+  db,
+}: {
+  email: string;
+  password: string;
+  db: DatabaseTypes;
+}) => {
+  try {
+    const [row] = await db.connection(`SELECT * FROM anjum where email = $1`, [
+      email,
+    ]);
+    if (!row) {
+      return {
+        success: false,
+        message: "User not found",
+      };
+    }
+
+    await db.connection(
+      `UPDATE anjum SET password = $1 , pwd_version = $2 WHERE email = $3`,
+      [password, Date.now(), email]
+    );
+
+    return {
+      success: true,
+      message: "Successfully updated the password",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something went wrong.",
+    };
+  }
+};
