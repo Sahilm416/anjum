@@ -1,0 +1,49 @@
+{
+  "name": "anjum",
+  "version": "0.0.16",
+  "description": "",
+  "types": "./dist/types/index.d.ts",
+  "bin": {
+    "anjum": "bin/index.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js"
+    },
+    "./plugins": {
+      "types": "./dist/types/plugins/index.d.ts",
+      "import": "./dist/esm/plugins/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsup && pnpm build:declarations",
+    "build:declarations": "npx tsc -p tsconfig.declarations.json",
+    "dev": "tsup --watch",
+    "lint": "tsc"
+  },
+  "keywords": [],
+  "author": "sahil",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/nodemailer": "^6.4.15",
+    "next": "^14.1.1",
+    "tsup": "^8.0.2"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.3",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "inquirer": "^9.2.23",
+    "jose": "^5.3.0",
+    "nanoid": "^5.0.7",
+    "nodemailer": "^6.9.13",
+    "ora": "^8.0.1"
+  }
+}
