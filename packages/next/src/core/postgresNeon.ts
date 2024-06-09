@@ -161,7 +161,7 @@ export const sendVerificationCode = async ({
       const { total_attempts, last_otp_attempt } = row;
 
       // Check if user has exceeded daily attempt limit
-      if (total_attempts > 30 && now - last_otp_attempt < 12 * 60 * 60 * 1000) {
+      if (total_attempts > 30 && now - parseInt(last_otp_attempt) < 12 * 60 * 60 * 1000) {
         return {
           success: false,
           message: "You've exceeded the maximum daily attempts.",
@@ -169,14 +169,14 @@ export const sendVerificationCode = async ({
       }
 
       // Reset failed attempts and total attempts after 24 hours
-      if (now - last_otp_attempt > 24 * 60 * 60 * 1000) {
+      if (now - parseInt(last_otp_attempt) > 24 * 60 * 60 * 1000) {
         await db.connection(
           `UPDATE anjum_otp SET failed_attempts = 0, total_attempts = 1, last_otp_attempt = $1, otp = $2 WHERE email = $3`,
           [now, otp, email]
         );
       } else {
         // Check if user is sending too many requests
-        if (now - last_otp_attempt < 1 * 60 * 1000) {
+        if (now - parseInt(last_otp_attempt) < 1 * 60 * 1000) {
           return {
             success: false,
             message: "Too many attempts, please wait.",
