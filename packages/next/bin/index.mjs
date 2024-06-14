@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import inquirer from "inquirer";
 import chalk from "chalk";
 import ora from "ora";
 import path from "path";
@@ -15,7 +14,7 @@ const program = new Command();
 
 program
   .name(chalk.blue("Anjum"))
-  .description("Initialize anjum authentication ( redshield 2.0 )")
+  .description("Initialize anjum authentication (redshield 2.0)")
   .version("0.0.1");
 
 program
@@ -29,18 +28,8 @@ program
       exit(1);
     }
 
-    // Prompt the user to select the database
-    const { database } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "database",
-        message: chalk.white("Select your database:"),
-        choices: ["PostgreNeon", "MongoDB"],
-      },
-    ]);
-
-    // Initialize the project based on the selected database
-    await initializeProject(database);
+    // Initialize the project for Neon Postgres
+    await initializeProject();
   });
 
 program.parse(process.argv);
@@ -70,7 +59,7 @@ async function checkForValidProject() {
 
     if (!packageJson.dependencies.anjum) {
       dependencySpinner.fail(
-        chalk.red("Anjum not detected , install anjum first!")
+        chalk.red("Anjum not detected, install anjum first!")
       );
       return false;
     }
@@ -94,29 +83,15 @@ async function checkForValidProject() {
 }
 
 /**
- * Initialize the project based on the selected database.
- * @param {string} database - The selected database option.
+ * Initialize the project for Neon Postgres.
  */
-async function initializeProject(database) {
+async function initializeProject() {
   const spinner = ora("Initializing project...").start();
   await delay(200); // Small delay for a better user experience
-  let plugin = "";
-  let fnc = "";
-  switch (database) {
-    case "PostgreNeon":
-      plugin = `import { PostgresNeon } from "anjum/plugins;`;
-      fnc = `PostgresNeon()`;
-      await initializePostgreNeon(spinner);
-      break;
 
-    case "MongoDB":
-      spinner.succeed(
-        `You selected ${chalk.green(database)} as your database.`
-      );
-      break;
-    default:
-      spinner.fail("Invalid database option selected.");
-  }
+  const plugin = `import { PostgresNeon } from "anjum/plugins";`;
+  const fnc = `PostgresNeon()`;
+  await initializePostgreNeon(spinner);
 
   const srcFolder = path.join(process.cwd(), "src");
   const actionsFolder = path.join(srcFolder, "actions");
@@ -147,10 +122,10 @@ async function initializeProject(database) {
     anjumFilePath,
     `"use server";
 import { Anjum } from "anjum";
-${plugin}";
+${plugin}
         
 const anjum = new Anjum({
-  database: ${fnc} ,
+  database: ${fnc},
   name: "Anjum",
 });
         
@@ -161,6 +136,8 @@ export const {
   logout,
   sendEmailVerificationCode,
   verifyEmailVerificationCode,
+  deleteAccount,
+  resetPassword
 } = anjum;`
   );
 
@@ -175,39 +152,44 @@ async function initializePostgreNeon(spinner) {
   const envFilePaths = [".env", ".env.local"];
   let neonKey;
   let jwtSecret;
+  let envFileToUpdate;
 
   for (const envFilePath of envFilePaths) {
     try {
-      const envConfig = dotenv.config({
-        path: path.join(process.cwd(), envFilePath),
-      });
-      neonKey = envConfig.parsed?.NEON_KEY;
-      jwtSecret = envConfig.parsed?.JWT_SECRET || null;
-      if (neonKey) {
-        break;
+      if (fs.existsSync(path.join(process.cwd(), envFilePath))) {
+        const envConfig = dotenv.config({
+          path: path.join(process.cwd(), envFilePath),
+        });
+        neonKey = envConfig.parsed?.NEON_KEY;
+        jwtSecret = envConfig.parsed?.JWT_SECRET || null;
+        envFileToUpdate = envFilePath;
+        if (neonKey) {
+          break;
+        }
       }
     } catch (err) {
-      spinner.fail(err.message);
+      console.log(chalk.yellow(`Error reading ${envFilePath}: ${err.message}`));
     }
   }
 
   if (!neonKey) {
-    console.log(chalk.redBright("No NEON_KEY found in environment variables!"));
-    spinner.fail("Failed to initialize project");
+    spinner.fail(chalk.redBright("No NEON_KEY found in environment variables!"));
     exit(1);
   }
 
   if (!jwtSecret) {
     jwtSecret = nanoid() + nanoid();
-    const envFilePath = path.join(process.cwd(), ".env");
-    const envContent = fs.readFileSync(envFilePath, "utf-8");
-    const newEnvContent = `${envContent}\nJWT_SECRET=${jwtSecret}`;
-    fs.writeFileSync(envFilePath, newEnvContent);
-    console.log(
-      chalk.yellow(
-        `JWT_SECRET not found. A new JWT_SECRET has been generated and appended to the .env file.`
-      )
-    );
+    if (envFileToUpdate) {
+      const envFilePath = path.join(process.cwd(), envFileToUpdate);
+      const envContent = fs.readFileSync(envFilePath, "utf-8");
+      const newEnvContent = `${envContent}\nJWT_SECRET=${jwtSecret}`;
+      fs.writeFileSync(envFilePath, newEnvContent);
+      console.log(
+        chalk.yellow(
+          `JWT_SECRET not found. A new JWT_SECRET has been generated and appended to the ${envFileToUpdate} file.`
+        )
+      );
+    }
   }
 
   spinner.succeed(
@@ -234,3 +216,4 @@ async function initializePostgreNeon(spinner) {
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
