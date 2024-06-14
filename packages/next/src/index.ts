@@ -7,7 +7,7 @@ import {
   deleteUserAccount,
   resetUserPassword,
 } from "./core/postgresNeon";
-import { DatabaseTypes } from "./customTypes/types"; // Adjust the import if necessary
+import { DatabaseTypes } from "./customTypes/types";
 
 export class Anjum {
   protected database: DatabaseTypes;
