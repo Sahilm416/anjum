@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build": "tsup && pnpm build:declarations",
-    "build:declarations": "npx tsc -p tsconfig.declarations.json",
+    "build:declarations": "tsc -p tsconfig.declarations.json",
     "dev": "tsup --watch",
     "lint": "tsc"
   },
