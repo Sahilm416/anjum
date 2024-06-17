@@ -1,0 +1,24 @@
+---
+title: deleteAccount
+---
+import { Callout } from 'fumadocs-ui/components/callout';
+
+This method allows to delete the user from the database. All you need is to pass the email.
+Here is a demo code.
+
+```typescript
+import { deleteAccount } from "@/actions/anjum";
+
+const handleDeleteAccount = async ()=> {
+    const res = await deleteAccount({email: email});
+    return res;
+};
+// returns {success: boolean , message: string}
+```
+
+Always add confirmation modals and notifications to let the user delete their account.
+
+<Callout title="Warning" type="warn">
+     This can't be undone !
+</Callout>
+

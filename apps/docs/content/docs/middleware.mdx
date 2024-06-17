@@ -1,0 +1,42 @@
+---
+title: middleware
+---
+
+Middleware is a piece of code that works as a interface between your client and server.
+It is used to perform tasks such as authentication, caching, and error handling. If you are new to this concept kindly check [nextjs middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware). <br/>
+Here is a simple example of middleware in nextjs.
+
+```typescript
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getSession } from "@/actions/anjum";
+
+export async function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const session = await getSession();
+  //if already authenticated then redirect back to desired page
+  if (url.pathname === "/login") {
+    if (session.success) {
+      //add path where logged in user should be redirected
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    } else {
+      return NextResponse.next();
+    }
+  }
+  //this redirects the users to auth page if not authenticated
+  if (session.success) {
+    return NextResponse.next();
+  } else {
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+}
+
+export const config = {
+  //add routes in matcher array to protect them from unauthenticated users
+  matcher: ["/", "/login"],
+};
+```
+
+Depending on your need you can always edit the middleware file and add or remove routes.

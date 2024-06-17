@@ -1,0 +1,34 @@
+---
+title: email
+---
+
+## sendEmailVerificationCode
+
+This method allows you to send a 4 digit confirmation code to the specified email.
+User can request one email per minute and also has the daily limit of 31 emails.
+
+You can implement the method as following.
+
+```typescript
+import { sendEmailVerificationCode } from "@/actions/anjum";
+
+const handleSendCode = async ({ email }: { email: string }) => {
+    const res = await sendEmailVerificationCode({email: email});
+    return res;
+};
+// returns {success: boolean , message: string}
+```
+
+## verifyEmailVerificationCode
+This method verifies the code sent by the above method. Remember that the code is only valid for 3 minutes.
+You can implement the method as following.
+
+```typescript
+import { verifyEmailVerificationCode } from "@/actions/anjum";
+
+const handleSendCode = async ({ email , code }: { email: string , code: string }) => {
+    const res = await verifyEmailVerificationCode({email: email , code: code });
+    return res;
+};
+// returns {success: boolean , message: string}
+```

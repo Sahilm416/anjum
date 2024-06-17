@@ -1,4 +1,4 @@
 {
     "title":"Project anjum docs",
-    "pages":["index" , "installation" , "Methods"]
+    "pages":["index" , "installation" , "info" , "Methods" , "middleware"]
 }

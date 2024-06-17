@@ -1,0 +1,34 @@
+---
+title: getSession
+---
+
+This is the most important and used method in this whole authentication system.
+It's used to get the current session of the user, which is constantly being checked.
+You can use this method in any component or middleware.
+
+Here is how you can use it.
+
+```tsx
+import { getSession } from "@/actions/anjum";
+
+export default async function Dashboard(){
+   const session = await getSession();
+   if(session.success){
+    return (
+        <div>
+            <p>Welcome {session.data.email} !</p>
+        </div>
+    )
+   }
+    return (
+        <div>
+            <p>Please login to access this page !</p>
+        </div>
+    )
+}
+```
+## More about it
+This method returns a promise that resolves to an object with 3 properties: `success` , `message` and `data`.
+The `data` consits of email , role and id of the user.  
+
+This method will also be utilized in the middleware file to protect routes, ensuring that only authorized users can access certain parts of the application.

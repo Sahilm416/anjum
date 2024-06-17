@@ -1,0 +1,20 @@
+---
+title: resetPassword
+---
+
+This method simply resets the password of the user. Make sure to use this method in combination with `sendEmailVerificationCode` and `verifyEmailVerificationCode` .
+
+Here is a demo code.
+
+```typescript
+import { resetPassword, sendEmailVerificationCode , verifyEmailVerificationCode } from "@/actions/anjum";
+
+const handleResetPassword = async ({ email , password }:{ email: string , password: string })=> {
+    // first send email verification code
+    // Then verify the code
+    // if code is valid then reset the password
+    const res = await resetPassword({email: email , password: password});
+    return res;
+};
+// returns {success: boolean , message: string}
+```

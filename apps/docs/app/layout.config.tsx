@@ -7,8 +7,8 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     {
-      text: 'Documentation',
-      url: '/docs',
+      text: 'GitHub',
+      url: 'https://github.com/sahilm416/anjum',
       active: 'nested-url',
     },
   ],

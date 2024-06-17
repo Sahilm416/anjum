@@ -1,4 +1,4 @@
 {
     "title": "Methods",
-    "pages": ["register" , "login" , "logout"]
+    "pages": ["register" , "login" , "logout" , "email" , "reset" , "delete" , "getSession"]
 }

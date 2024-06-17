@@ -1,0 +1,35 @@
+---
+title: extra information
+---
+
+All these methods have a similar return type. The return type is a object that consist two fields as success and message.
+`success` is a boolean value that indicates whether the operation was successful or not and the `message` is the information of the operation.
+
+Integrate these methods into your ui using this returned object.
+You can display the notification messages using the success state of the returned object.
+
+Here is a demo of how to use it.
+
+```typescript
+import { login } from "@/actions/anjum";
+import { toast } from "sonner";
+
+const handleLogin = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const res = await login({ email: email, password: password });
+  if (res.success) {
+    // login successful
+    toast.success(res.message)
+    // redirect to dashboard
+  } else {
+    // login failed
+    // show error message
+    toast.error(res.message)
+  }
+};
+```
