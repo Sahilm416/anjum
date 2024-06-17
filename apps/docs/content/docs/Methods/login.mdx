@@ -1,0 +1,21 @@
+---
+title: login
+description: about login methods
+---
+
+This method takes email and password as parameter and returns the response which contains 
+success and message.
+
+```typescript
+import { login } from "@/actions/anjum";
+
+const handleLogin = async ({email , password} : {email: string , password: string})=> {
+   const res = await login({email: email , password: password});
+   return res;
+}
+// returns {success: boolean , message: string}
+ ```
+
+ ## More about it
+ You don't have to add additional code to prevent [bruteforce](https://owasp.org/www-community/attacks/Brute_force_attack) attacks or any other security isuues.
+ This method has all the security features you need.

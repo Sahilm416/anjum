@@ -1,0 +1,111 @@
+---
+title: Installation
+description: Installation steps
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Complete the following steps as directed to use the `project anjum` authentication in your app.
+Kindly follow each and every step to setup the authentication.
+
+<Steps>
+<Step>
+  ## Configure environment variables
+  ```bash
+   NEON_KEY=your_neon_key
+   MAIL_USER=your_email
+   MAIL_PASS=your_password
+  ```
+  Go to the [neon console](https://console.neon.tech/) to get your `NEON_KEY` i.e. *"connection string"* &nbsp; from the project dashboard.
+  If you want to use the email methods then make sure to also provide the `MAIL_USER` and `MAIL_PASS` too. <br/>
+
+  The `MAIL_USER` is simply the email address that you want to use to send emails to your users. <br/>
+  To get the `MAIL_PASS` follow the following steps. <br/>
+
+  1. Go to your gmail account.
+  2. Tap on profile and click "manage your google account".
+  3. Go to security tab and scroll down to check if you have enabled two factor authentication. (if not then enable it)
+  4. Go to search bar and search for "App passwords".
+  5. click on it and enter your gmail password if prompted.
+  6. Now enter your app name and click "create".
+  7. You'll get the password string on screen.
+
+  <Callout title="Note" type="info">
+     Remove the extra spaces in the password.
+  </Callout>
+
+  It should look something like this.
+  ```bash
+  MAIL_PASS=bqderhgnwijknlnz
+  ```
+
+
+  <Callout title="Warning" type="warn">
+   Do not change the naming of specified environment variables.
+  </Callout>
+
+
+</Step>
+
+<Step>
+ 
+### Install package
+
+<Tabs defaultIndex={1} items={['pnpm', 'npm']}>
+  <Tab value="pnpm">
+  ```bash
+    pnpm install anjum
+  ```
+  </Tab>
+  <Tab value="npm">
+   ```bash
+    npm install anjum
+  ```
+  </Tab>
+</Tabs>
+ This will install the necessary files from the npm registry.
+ Depending on the internet connection it'll complete the installation.
+
+</Step>
+
+<Step>
+
+### Initialize the project
+
+<Tabs defaultIndex={1} items={['pnpm', 'npm']}>
+  <Tab value="pnpm">
+  ```bash
+    pnpx anjum init
+  ```
+  </Tab>
+  <Tab value="npm">
+   ```bash
+    npx anjum init
+  ```
+  </Tab>
+</Tabs>
+
+Project anjum requires the configuration with server actions to run.
+This command will automatically figure out the project structure and create the necessary files.
+Just make sure you have your `NEON_KEY` in your `env` file.
+Also add the `MAIL_USER` and `MAIL_PASS` if you need email service.
+</Step>
+
+<Step>
+## Import methods
+Now you are all set to import the methods in both client and server components.
+Here is an example of how you can import and use the methods in your component.
+
+```typescript
+import {login , register , logout } from "@/actions/anjum";
+
+const handleLogin = async ({email , password} : {email: string , password: string})=> {
+   const res = await login({email: email , password: password});
+   return res;
+}
+```
+</Step>
+</Steps>
+

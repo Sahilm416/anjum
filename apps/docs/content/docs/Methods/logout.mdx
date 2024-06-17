@@ -1,0 +1,21 @@
+---
+title: logout 
+---
+
+This method removes the cookies and make sure the user is no more logged in.
+This also returns a response with success and a message as following.
+
+```typescript
+import { logout } from "@/actions/anjum";
+
+const handleLogout = async ()=> {
+    const res = await logout();
+    // make sure to reload the page so the ui could reflect changes.
+    window.location.reload();
+    return res;
+}
+// returns {success: boolean , message: string}
+```
+
+## More about it
+You don't need any parameters to pass in this method.

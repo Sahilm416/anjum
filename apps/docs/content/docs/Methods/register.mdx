@@ -1,0 +1,19 @@
+---
+title: register
+---
+
+This method lets you add new users to the database. Just pass the email and password along with the role. <br/>
+The role could be "user" or "admin". 
+
+```typescript
+import { register } from "@/actions/anjum";
+
+const handleRegister = async ({email , password} : {email: string , password: string})=> {
+   const res = await register({email: email , password: password , role: "user"});
+   return res;
+}
+// returns {success: boolean , message: string}
+ ```
+
+ ## More about it
+ Before directly using the `register` method make sure you have confirmed the email address by the [email verification](/docs/Methods/email) method.
