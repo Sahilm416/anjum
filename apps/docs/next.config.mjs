@@ -6,6 +6,14 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
   transpilePackages: ["@repo/ui" , "anjum"],
+  images: {
+    remotePatterns:[
+      {
+        protocol: 'https',
+        hostname:"github.com"
+      }
+    ]
+  }
 };
 
 export default withMDX(config);
