@@ -10,7 +10,7 @@ const Header = () => {
             anjum
           </span>
         </h1>
-        <p className="text-zinc-600">Simple email-password auth for nextjs.</p>
+        <p className="text-zinc-600">Simple email-password auth for next.js</p>
         <div className="flex justify-center gap-2">
           <Link
             href={"/docs"}
