@@ -18,8 +18,8 @@ const Contributors = async () => {
   }
 
   return (
-    <div className="w-full flex flex-col gap-5 items-center">
-      <h1 className="text-4xl font-semibold">Contributors</h1>
+    <div className="w-full flex flex-col gap-5 items-center border rounded-md p-5">
+      <h1 className="text-4xl font-semibold dark:text-zinc-300 text-zinc-700">Contributors</h1>
       <div className="flex gap-2">
         {res.data.map((c, i) => {
           return (
