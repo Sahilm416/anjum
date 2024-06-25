@@ -1,6 +1,6 @@
 {
   "name": "anjum",
-  "version": "0.0.17",
+  "version": "0.0.19",
   "description": "",
   "types": "./dist/types/index.d.ts",
   "bin": {
@@ -26,7 +26,12 @@
     "dev": "tsup --watch",
     "lint": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "next",
+    "neon",
+    "auth",
+    "anjum"
+  ],
   "author": "sahil",
   "license": "ISC",
   "devDependencies": {
