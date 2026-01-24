@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/node": "^20.11.24",
     "@types/nodemailer": "^6.4.15",
-    "next": "^14.1.1",
+    "next": "14.2.35",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
